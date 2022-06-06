@@ -52,7 +52,7 @@ jobs:
       
   prod:
     runs-on: ubuntu-latest
-    needs: [build, qa, sandbox]
+    needs: [build, dev, qa, sandbox]
     environment:
       name: dev
       url: https://mycompany.com
