@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, dev]
     environment:
-      name: dev
+      name: qa
       url: https://qa.mycompany.com
     
     steps:
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, dev]
     environment:
-      name: dev
+      name: sandbox
       url: https://qa.mycompany.com
     
     steps:
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, dev, qa, sandbox]
     environment:
-      name: dev
+      name: prod
       url: https://mycompany.com
     
     steps:
