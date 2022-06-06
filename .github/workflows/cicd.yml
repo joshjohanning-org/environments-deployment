@@ -34,7 +34,8 @@ jobs:
     
     # use a reusable workflow
     steps:
-      - run: echo "hello"
+      - run: echo "run the deploy..."
+      - run: echo "run the automated tests to validate the deployment..."
       
   qa:
     runs-on: ubuntu-latest
