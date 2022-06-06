@@ -19,6 +19,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - run: touch build.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: build.txt
 
   sonar:
     runs-on: ubuntu-latest
@@ -26,44 +31,38 @@ jobs:
     - run: echo "running sonar scans..."
     
   dev:
-    runs-on: ubuntu-latest
     needs: [build, sonar]
-    environment:
-      name: dev
-      url: https://dev.mycompany.com
-    
-    # use a reusable workflow
-    steps:
-      - run: echo "run the deploy..."
-      - run: echo "run the automated tests to validate the deployment..."
+    uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
+    with:
+      environment: dev
+      artifact-name: build
+    secrets: 
+      conn_str: ${{ secrets.CONN_STR }}
       
   qa:
-    runs-on: ubuntu-latest
-    needs: [build, dev]
-    environment:
-      name: qa
-      url: https://qa.mycompany.com
-    
-    steps:
-      - run: echo "hello"
+    needs: [build, sonar, dev]
+    uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
+    with:
+      environment: qa
+      artifact-name: build
+    secrets: 
+      conn_str: ${{ secrets.CONN_STR }}
       
   sandbox:
-    runs-on: ubuntu-latest
-    needs: [build, dev]
-    environment:
-      name: sandbox
-      url: https://qa.mycompany.com
-    
-    steps:
-      - run: echo "hello"
+    needs: [build, sonar, dev]
+    uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
+    with:
+      environment: sandbox
+      artifact-name: build
+    secrets: 
+      conn_str: ${{ secrets.CONN_STR }}
       
   prod:
-    runs-on: ubuntu-latest
-    needs: [build, dev, qa, sandbox]
-    environment:
-      name: prod
-      url: https://mycompany.com
-    
-    steps:
-      - run: echo "hello"
+    needs: [build, sonar, dev, qa, sandbox]
+    uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
+    with:
+      environment: prod
+      artifact-name: build
+    secrets: 
+      conn_str: ${{ secrets.CONN_STR }}
       
