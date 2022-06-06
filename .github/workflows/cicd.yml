@@ -20,13 +20,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+  sonar:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "running sonar scans..."
+    
   dev:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [build, sonar]
     environment:
       name: dev
       url: https://dev.mycompany.com
     
+    # use a reusable workflow
     steps:
       - run: echo "hello"
       
