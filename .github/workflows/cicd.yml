@@ -19,6 +19,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: joshjohanning-org/composite-action@main
+        with:
+          who-to-greet: 'San Dieeego!'
       - run: touch build.txt
       - uses: actions/upload-artifact@v3
         with:
