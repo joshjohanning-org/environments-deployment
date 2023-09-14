@@ -44,9 +44,6 @@ jobs:
       
   qa:
     needs: [build, sonar, dev]
-    concurrency:
-      group: qa
-      cancel-in-progress: true
     uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
     with:
       environment: qa
@@ -56,9 +53,6 @@ jobs:
       
   sandbox:
     needs: [build, sonar, dev]
-    concurrency:
-      group: sandbox
-      cancel-in-progress: true
     uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
     with:
       environment: sandbox
@@ -68,9 +62,6 @@ jobs:
       
   prod:
     needs: [build, sonar, dev, qa, sandbox]
-    concurrency:
-      group: prod
-      cancel-in-progress: true
     uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
     with:
       environment: prod
