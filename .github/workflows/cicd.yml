@@ -44,6 +44,7 @@ jobs:
       
   qa:
     needs: [build, sonar, dev]
+    if: github.event_name != 'pull_request' # don't deploy here if pr build
     uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
     with:
       environment: qa
@@ -53,6 +54,7 @@ jobs:
       
   sandbox:
     needs: [build, sonar, dev]
+    if: github.event_name != 'pull_request' # don't deploy here if pr build
     uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
     with:
       environment: sandbox
@@ -62,6 +64,7 @@ jobs:
       
   prod:
     needs: [build, sonar, dev, qa, sandbox]
+    if: github.event_name != 'pull_request' # don't deploy here if pr build
     uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@main
     with:
       environment: prod
