@@ -28,7 +28,7 @@ jobs:
         with:
           who-to-greet: 'San Dieeego!'
       - run: touch build.txt
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: build
           path: build.txt
