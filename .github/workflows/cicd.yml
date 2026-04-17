@@ -56,9 +56,19 @@ jobs:
       artifact-name: build
     secrets: 
       conn_str: ${{ secrets.CONN_STR }}
+
+  qa-int-test:
+    needs: [qa]
+    if: github.event_name != 'pull_request' # don't deploy here if pr build
+    uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@v1.0.15
+    with:
+      environment: qa-int-test
+      artifact-name: build
+    secrets: 
+      conn_str: ${{ secrets.CONN_STR }}
       
   sandbox:
-    needs: [build, sonar, dev]
+    needs: [qa-int-test]
     if: github.event_name != 'pull_request' # don't deploy here if pr build
     uses: joshjohanning-org/reusable-workflows/.github/workflows/deploy-sample.yml@v1.0.15
     with:
